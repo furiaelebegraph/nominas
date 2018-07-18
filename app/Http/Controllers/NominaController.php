@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Nomina;
+use App\Seller;
 use URL;
 
 class NominaController extends Controller
@@ -13,6 +14,21 @@ class NominaController extends Controller
      *
      * @return  \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function buscador(Request $request){
+        $error = ['error'=> 'No se encontro ningun Resultad'];
+        if($request->has('q')){
+            $buscaNomina = Nomina::search($request->get('q'))->get();
+            return $buscaNomina->count();
+        }
+        return error;
+    }
+
+
     public function index()
     {
         $title = 'Index - nomina';
@@ -28,8 +44,8 @@ class NominaController extends Controller
     public function create()
     {
         $title = 'Create - nomina';
-        
-        return view('nomina.create');
+        $selers = Seller::all();
+        return view('nomina.create', compact('selers'));
     }
 
     /**
@@ -41,31 +57,28 @@ class NominaController extends Controller
     public function store(Request $request)
     {
         $nomina = new Nomina();
+        if ($request->hasFile('pdf') && $request->hasFile('xml')) {
+            $nombrePDF = preg_replace('/\s/', '', $request->pdf->getClientOriginalName());
+            $nombreXML = preg_replace('/\s/', '', $request->xml->getClientOriginalName());
+            $superXml = time().'-'.$nombreXML;
+            $superPdf = time().'-'.$nombrePDF;
+            $pdfPath = 'pdf/'.$superPdf;
+            $xmlPath = 'xml/'.$superXml;
+            $request->pdf->move('img/pdf/', $superPdf);
+            $request->xml->move('img/xml/', $xmlPath);
+            $nomina->pdf = $pdfPath;
+            $nomina->xml = $xmlPath;
+        }else{
+            return back()->withInput('mensaje', 'Debes agregar PDF Y XML');
+        }
 
-        
+        $nomina->seller_id = $request->seller_id;
         $nomina->fecha = $request->fecha;
-
-        
-        $nomina->pdf = $request->pdf;
-
-        
-        $nomina->xml = $request->xml;
-
-        
         
         $nomina->save();
 
-        $pusher = App::make('pusher');
 
-        //default pusher notification.
-        //by default channel=test-channel,event=test-event
-        //Here is a pusher notification example when you create a new resource in storage.
-        //you can modify anything you want or use it wherever.
-        $pusher->trigger('test-channel',
-                         'test-event',
-                        ['message' => 'A new nomina has been created !!']);
-
-        return redirect('nomina');
+        return redirect('nomina')->with('mensaje', 'Nueva nomina creada');
     }
 
     /**
@@ -102,9 +115,9 @@ class NominaController extends Controller
             return URL::to('nomina/'. $id . '/edit');
         }
 
-        
+        $selers = Seller::all();
         $nomina = Nomina::findOrfail($id);
-        return view('nomina.edit',compact('title','nomina'  ));
+        return view('nomina.edit',compact('title','nomina', 'selers'  ));
     }
 
     /**
@@ -117,12 +130,21 @@ class NominaController extends Controller
     public function update($id,Request $request)
     {
         $nomina = Nomina::findOrfail($id);
-        
+        if ($request->hasFile('pdf') && $request->hasFile('xml')) {
+            $nombrePDF = preg_replace('/\s/', '', $request->pdf->getClientOriginalName());
+            $nombreXML = preg_replace('/\s/', '', $request->xml->getClientOriginalName());
+            $superXml = time().'-'.$nombreXML;
+            $superPdf = time().'-'.$nombrePDF;
+            $pdfPath = 'pdf/'.$superPdf;
+            $xmlPath = 'xml/'.$superXml;
+            $request->pdf->move('img/pdf/', $superPdf);
+            $request->xml->move('img/xml/', $xmlPath);
+            $nomina->pdf = $pdfPath;
+            $nomina->xml = $xmlPath;
+        }else{
+            return back()->withInput('mensaje', 'Debes agregar PDF Y XML');
+        }
         $nomina->fecha = $request->fecha;
-        
-        $nomina->pdf = $request->pdf;
-        
-        $nomina->xml = $request->xml;
         
         
         $nomina->save();
@@ -157,6 +179,6 @@ class NominaController extends Controller
     {
         $nomina = Nomina::findOrfail($id);
         $nomina->delete();
-        return URL::to('nomina');
+        return redirect('nomina');
     }
 }

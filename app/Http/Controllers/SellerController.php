@@ -21,10 +21,20 @@ class SellerController extends Controller
         $title = 'Index - Seller';
         $id = Auth::user()->id;
         $nominis = Seller::findOrFail($id);
-        $lolo = $nominis::with('nomina')->get();
-        dd($lolo);
-        return view('seller.dash',compact('lolo','title'));
+        return view('seller.dash',compact('nominis','title'));
     }
+
+
+
+    public function buscador(Request $request){
+        $error = ['error'=> 'No se encontro ningun Resultad'];
+        if($request->has('q')){
+            $buscaColaborador = Seller::search($request->get('q'))->get();
+            return $buscaColaborador->count();
+        }
+        return error;
+    }
+
 
     /**
      * Show the form for creating a new resource.

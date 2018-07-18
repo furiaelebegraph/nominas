@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-success">
+            <div class="panel alineado_centro">
                @if (session('mensaje'))
                     <div class="alert alert-success">
                             <strong>{{ session('mensaje') }}</strong> 
@@ -38,7 +38,7 @@
                             <label for="correo" class="col-md-4 control-label">Correo Electronico</label>
 
                             <div class="col-md-6">
-                                <input id="correo" type="correo" class="form-control" name="correo" value="{{ old('correo') }}" required>
+                                <input id="correo" type="email" class="form-control" name="correo" value="{{ old('correo') }}" required>
 
                                 @if ($errors->has('correo'))
                                     <span class="help-block">
@@ -51,7 +51,7 @@
                             <label for="telefono" class="col-md-4 control-label">Telefono</label>
 
                             <div class="col-md-6">
-                                <input id="telefono" type="telefono" class="form-control" name="telefono" value="{{ old('telefono') }}" required>
+                                <input id="telefono" type="tel" class="form-control" name="telefono" value="{{ old('telefono') }}" required>
 
                                 @if ($errors->has('telefono'))
                                     <span class="help-block">
@@ -65,7 +65,7 @@
                             <label for="direccion" class="col-md-4 control-label">Direccion</label>
 
                             <div class="col-md-6">
-                                <input id="direccion" type="direccion" class="form-control" name="direccion" value="{{ old('direccion') }}" required>
+                                <input id="direccion" type="text" class="form-control" name="direccion" value="{{ old('direccion') }}" required>
 
                                 @if ($errors->has('direccion'))
                                     <span class="help-block">
@@ -77,7 +77,7 @@
                         <div class="form-group{{ $errors->has('nss') ? ' has-error' : '' }}">
                             <label for="nss" class="col-md-4 control-label">Numero de Seguro Social</label>
                             <div class="col-md-6">
-                                <input id="nss" type="nss" class="form-control" name="nss" value="{{ old('nss') }}" required>
+                                <input id="nss" type="text" class="form-control" name="nss" value="{{ old('nss') }}" required>
 
                                 @if ($errors->has('nss'))
                                     <span class="help-block">
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Confirmar Password</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -112,7 +112,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn_pedorro btn-default">
                                     Registrar
                                 </button>
                             </div>

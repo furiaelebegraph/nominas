@@ -13,11 +13,23 @@ use App\Notifications\SellerResetPasswordNotification;
 //Trait for sending notifications in laravel
 use Illuminate\Notifications\Notifiable;
 
+
+use Laravel\Scout\Searchable;
+
 class Seller extends Authenticatable
 {
     // This trait has notify() method defined
     use Notifiable;
-    function nomina(){
+
+    use Searchable;
+
+
+    public function searchableAs()
+    {
+        return 'nss';
+    }
+
+    function nominas(){
         return $this->hasMany('App\Nomina','seller_id', 'id');
     }
 

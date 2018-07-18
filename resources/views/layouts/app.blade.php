@@ -8,10 +8,16 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Nomina') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2:400,700" rel="stylesheet">
+    <link href=" {{ asset('css/app.css') }}  rel="stylesheet">
+    <link rel="stylesheet" href=" {{ asset('css/bootstrap.min.css') }} ">
+    <link rel="stylesheet" href="{{ asset('css/helper.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+    <script src=" {{ asset('js/jquery.js') }} " ></script>
+    <script src=" {{ asset('js/bootstrap.min.js') }} " ></script>
 
     <!-- Scripts -->
     <script>
@@ -22,9 +28,9 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-expand-lg header">
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-brand">
 
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -35,32 +41,30 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/login') }}">
+                        <img class='logo_comer' src="{{ asset('img/logo.png') }}" alt="">
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    <ul class="navbar-nav">
                         &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="navbar-nav">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                            <li class='nav-item'><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -69,8 +73,13 @@
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class='nav-link' href="{{ route('seller.create') }}"> Colaboradores </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class='nav-link' href="{{ route('nomina.create') }}"> Nomina </a>
                             </li>
                         @endif
                     </ul>
@@ -80,8 +89,16 @@
 
         @yield('content')
     </div>
-
+    <div id="footer" class="row alineado_centro">
+        <div class="col-12">
+            <h2>CONMERSA</h2>
+            <h1>Empaque, embalaje y servicios de empaquetado.</h1>
+            <h3>Todos los derechos Reservados, 2017-2018.</h3>
+        </div>
+    </div>
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    <script src="{{ asset('js/general.js') }}"></script>
 </body>
 </html>

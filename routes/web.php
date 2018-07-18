@@ -19,13 +19,30 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::group(['middleware'=> 'auth'],function(){
+  Route::resource('seller','HomeController', ['only' => ['create', 'store', 'edit']]);
+  Route::get('seller','HomeController@indexSeller')->name('seller.index');
+  Route::post('seller/{id}/update','HomeController@update');
+  Route::delete('seller/{id}/delete','HomeController@destroy')->name('seller.destroy');
+  Route::get('seller/{id}/deleteMsg','HomeController@DeleteMsg');
+});
 
+Route::get('buscanomina', 'NominaController@buscador');
+
+Route::get('buscacolaborador', 'SellerController@buscador');
+
+Route::group(['middleware'=> 'auth'],function(){
+  Route::resource('nomina','NominaController',['names' => ['nominas' => 'nomina.index', 'edit' => 'nomina.edit',]], ['only' => ['create', 'store', 'index', 'edit']]);
+  Route::post('nomina/{id}/update','NominaController@update'); 
+  Route::delete('nomina/{id}/delete','NominaController@destroy')->name('nomina.destroy');
+  Route::get('nomina/{id}/deleteMsg','NominaController@DeleteMsg');
+});
 //Logged in users/seller cannot access or send requests these pages
 Route::group(['seller_guest'], function() {
 
-	Route::get('seller_register', 'SellerAuth\RegisterController@showRegistrationForm');
+	Route::get('seller_register', 'SellerAuth\RegisterController@showRegistrationForm')->name('seller_register');
 	Route::post('seller_register', 'SellerAuth\RegisterController@register');
-	Route::get('seller_login', 'SellerAuth\LoginController@showLoginForm');
+	Route::get('seller_login', 'SellerAuth\LoginController@showLoginForm')->name('seller_login');
 	Route::post('seller_login', 'SellerAuth\LoginController@login');
 
 	//Password reset routes

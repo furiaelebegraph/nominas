@@ -87,7 +87,7 @@ return [
     'username' => env('MAIL_USERNAME'),
 
     'password' => env('MAIL_PASSWORD'),
-
+    'sendmail' => '/usr/sbin/sendmail -bs' ,
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

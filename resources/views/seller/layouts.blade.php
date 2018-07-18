@@ -11,20 +11,30 @@
     <title>{{ config('app.name', 'MultiAuth') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2:400,700" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href=" {{ asset('css/bootstrap.min.css') }} ">
+    <link rel="stylesheet" href=" {{ asset('css/bootstrap-datetimepicker.min.css') }} ">
+    <link rel="stylesheet" href="{{ asset('css/helper.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}">
+    <script src=" {{ asset('js/jquery.js') }} " ></script>
+    <script src=" {{ asset('js/moment.js') }} " ></script>
+    <script src=" {{ asset('js/bootstrap.min.js') }} " ></script>
+    <script src=" {{ asset('js/bootstrap-datetimepicker.min.js') }} " ></script>
+    <script src=" {{ asset('js/general.js') }} " ></script>
 
     <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode([
+        window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
-        ]); ?>
+        ]) !!};
     </script>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-expand-lg header" >
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-brand">
 
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -36,34 +46,33 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img class='logo_comer' src="{{ asset('img/logo.png') }}" alt="">
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    <ul class="navbar-nav">
                         &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="navbar-nav">
                         <!-- Authentication Links -->
                         @if (Auth::guard('web_seller')->guest())
 
                             <!--Seller Login and registration Links -->
 
-                            <li><a href="{{ url('/seller_login') }}">Login</a></li>
-                            <li><a href="{{ url('/seller_register') }}">Registration</a></li>
+                            <li class='nav-item'><a class="nav-link" href="{{ url('/seller_login') }}">Iniciar Sesión</a></li>
+                            <li class='nav-item'><a class="nav-link" href="{{ url('/seller_register') }}">Registrarme</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::guard('web_seller')->user()->nombre }} <span class="caret"></span>
                                 </a>
 
-                               <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('seller_logout') }}"
+                               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="{{ route('seller_logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -72,8 +81,7 @@
                                         <form id="logout-form" action="{{route('seller_logout')}}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                </ul>
+                                </div>
                             </li>
                         @endif
                     </ul>
@@ -83,8 +91,13 @@
 
         @yield('content')
     </div>
-
+    <div id="footer" class="row alineado_centro">
+        <div class="col-12">
+            <h2>CONMERSA</h2>
+            <h1>Empaque, embalaje y servicios de empaquetado.</h1>
+            <h3>Todos los derechos Reservados, 2017-2018.</h3>
+        </div>
+    </div>
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
 </body>
 </html>
