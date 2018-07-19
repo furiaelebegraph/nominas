@@ -12,9 +12,9 @@ class Nomina extends Model
 
     use Searchable;
 
-    public function searchableAs()
-    {
-        return 'fecha';
+    public function toSearchableArray(){
+        $array = $this->load('seller')->toArray();
+        return $array;
     }
 
     function seller(){

@@ -21,19 +21,27 @@ class NominaController extends Controller
 
     public function buscador(Request $request){
         $error = ['error'=> 'No se encontro ningun Resultad'];
-        if($request->has('q')){
-            $buscaNomina = Nomina::search($request->get('q'))->get();
-            return $buscaNomina->count();
+        if($request->has('buscador')){
+            $buscaNomina = Seller::search($request->get('buscador'))->get();
+            return Response()->json($buscaNomina);
+        }else{
+
         }
-        return error;
+        return $error;
     }
 
 
-    public function index()
-    {
+    public function index(Request $request){
         $title = 'Index - nomina';
         $nominas = Nomina::paginate(6);
-        return view('nomina.index',compact('nominas','title'));
+        $error = ['error'=> 'No se encontró ningun resultado'];
+        if($request->buscador){
+            $buscaNomina = Nomina::search($request->buscador)->get()->load('seller');
+        }else{
+            $buscaNomina = null;
+        }
+        return view('nomina.index',compact('nominas','title', 'buscaNomina'));
+
     }
 
     /**
@@ -41,7 +49,7 @@ class NominaController extends Controller
      *
      * @return  \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $title = 'Create - nomina';
         $selers = Seller::all();

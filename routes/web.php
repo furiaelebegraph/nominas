@@ -27,9 +27,9 @@ Route::group(['middleware'=> 'auth'],function(){
   Route::get('seller/{id}/deleteMsg','HomeController@DeleteMsg');
 });
 
-Route::get('buscanomina', 'NominaController@buscador');
+Route::get('/buscanomina', 'NominaController@index');
 
-Route::get('buscacolaborador', 'SellerController@buscador');
+Route::get('/buscacolaborador', 'NominaController@buscador');
 
 Route::group(['middleware'=> 'auth'],function(){
   Route::resource('nomina','NominaController',['names' => ['nominas' => 'nomina.index', 'edit' => 'nomina.edit',]], ['only' => ['create', 'store', 'index', 'edit']]);

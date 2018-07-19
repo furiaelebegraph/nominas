@@ -24,9 +24,9 @@ class Seller extends Authenticatable
     use Searchable;
 
 
-    public function searchableAs()
-    {
-        return 'nss';
+    public function toSearchableArray(){
+        $array = $this->toArray();
+        return $array;
     }
 
     function nominas(){

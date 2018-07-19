@@ -10,11 +10,25 @@
             <a href="{!!url('nomina')!!}" class = 'btn btn-success'><i class="fa fa-home"></i>VER LAS NOMINAS</a>
     <a href="{!!url('/home')!!}" class = 'btn btn-primary'><i class="fa fa-home"></i> Panel Administrador</a>
             <br>
+
+            <div class="row">
+                    <div class="col-12">
+                        <div id="formularioCola">
+                            <input type="text" id='mi_input' name="buscador">
+                            <button id="btn_cooll" class="btn btn-primary">Buscar</button>
+                        </div>
+                        <div id='llenar'></div>
+
+                    </div>
+            </div>
+
             <form class="form-horizontal m-t-30" role="form" method="POST" action="{{ url('/nomina') }}" enctype="multipart/form-data" >
                 {{ csrf_field() }}
                 <div class="form-group{{ $errors->has('seller_id') ? ' has-error' : '' }}">
                     <label for="seller_id" class="col-md-12 control-label">Colaborador</label>
+
                     
+                    <div class="col-12" id='nuevoCompita'></div>
                     <div class="col-12">
                         <select id='seller_id' class="form-control" name="seller_id">
                             <option value="" selected disabled style="display:none">Seleciona una colaborador</option>
@@ -86,4 +100,6 @@
     </section>
     
 </div>
+<script src="{{ asset('js/apps.js') }}"></script>
+
 @endsection

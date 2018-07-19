@@ -20,8 +20,13 @@ class SellerController extends Controller
     public function index() {
         $title = 'Index - Seller';
         $id = Auth::user()->id;
+        if($request->buscador){
+            $buscColaborador = Seller::search($request->buscador)->get();
+        }else{
+            $buscColaborador = null;
+        }
         $nominis = Seller::findOrFail($id);
-        return view('seller.dash',compact('nominis','title'));
+        return view('seller.dash',compact('nominis','title','buscColaborador'));
     }
 
 
@@ -30,7 +35,7 @@ class SellerController extends Controller
         $error = ['error'=> 'No se encontro ningun Resultad'];
         if($request->has('q')){
             $buscaColaborador = Seller::search($request->get('q'))->get();
-            return $buscaColaborador->count();
+            return $buscaColaborador->json();
         }
         return error;
     }
