@@ -11,11 +11,11 @@
     <a href="{!!url('/home')!!}" class = 'btn btn-primary'><i class="fa fa-home"></i> Panel Administrador</a>
             <br>
 
-            <div class="row">
+            <div class="row m-t-30">
                     <div class="col-12">
-                        <div id="formularioCola">
-                            <input type="text" id='mi_input' name="buscador">
-                            <button id="btn_cooll" class="btn btn-primary">Buscar</button>
+                        <div class="row justify-content-center" id="formularioCola">
+                            <input class="col-9 form-control" type="text" id='mi_input' name="buscador">
+                            <button id="btn_cooll" class="col-2 btn btn-primary">Buscar</button>
                         </div>
                         <div id='llenar'></div>
 
@@ -28,20 +28,8 @@
                     <label for="seller_id" class="col-md-12 control-label">Colaborador</label>
 
                     
-                    <div class="col-12" id='nuevoCompita'></div>
-                    <div class="col-12">
-                        <select id='seller_id' class="form-control" name="seller_id">
-                            <option value="" selected disabled style="display:none">Seleciona una colaborador</option>
-                            @foreach($selers as $colaborador)
-                                <option value="{{$colaborador->id}}">{{$colaborador->nombre}}</option>
-                            @endforeach
-                        </select>
-
-                        @if ($errors->has('seller_id'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('seller_id') }}</strong>
-                        </span>
-                        @endif
+                    <div class="col-12" id='nuevoCompita'>
+                        <input required name="seller_id" class="form-control" placeholder='Colaborador' readonly value="">
                     </div>
                 </div>
                 <div class="form-group{{ $errors->has('fecha') ? ' has-error' : '' }}">
